@@ -1,0 +1,49 @@
+There were no notable obstacles
+
+Test Data						v1	v2
+
+Young, non-student, short trip 	(10, n, 0)		>0.65	>0.65
+				(10, n, 1)		>0.65	>0.65
+				(17, n, 0)		>0.65	>0.65
+				(0, n, 1)		>0.65	>0.65
+
+Young, student, long trip	(13, y, 2)		>2.45	>2.45
+				(14, y, 3)		>3.00	>3.00
+				(0, y, 10)		>6.85	>6.85
+
+Middle, non-student, short trip	(18, n, 0)		>1.35	>1.35
+				(18, n, 1)		>1.90	>1.90	
+				(30, n, 0)		>1.35	>1.35
+				(64, n, 1)		>1.90	>1.90
+
+Middle, student, short trip	(18, y, 0)		>0.65	>0.65
+				(18, y, 1)		>0.65	>0.65
+				(25, y, 0)		>0.65	>0.65
+				(64, y, 1)		>0.65	>0.65
+
+Middle, student, long trip	(18, y, 3)		>3.00	>3.00
+				(30, y, 4)		>3.55	>3.55
+				(64, y, 5)		>4.10	>4.10
+
+Senior, non-student, short trip	(65, n, 0)		>0.45	>0.45
+				(80, n, 0)		>0.45	>0.45
+				(283851039, n, 0)	>0.45	>0.45
+
+Senior, non-student, long trip	(65, n, 5)		>1.80	>1.80
+				(80, n, 10)		>3.05	>3.05
+				(183573, n, 15)		>4.30	>4.30
+
+Senior, student			(65, y, 0)		>0.45	>0.45
+				(65, y, 1)		>0.45	>0.65
+				(65, y, 2)		>0.45	>1.05
+				(100, y, 1)		>0.45	>0.65
+				(12345789, y, 3)	>0.45	>1.30
+				(2835, y, 3817345)	>0.45	>954336.80
+
+Break				(-3, -, -, -)		>The age must not be negative
+				(2, "q", -, -)		>You must enter y or n
+				(2, "y", "", -)		>You must enter a destination
+				(2, "n", "Here", -5)	>The number of zone boundaries crossed must not be negative
+
+
+The category of senior students did not result in the correct outputs for the first round of tests because I misunderstood the discount. I thought senior students paid a flat $0.45 since that is the lowest available fare.

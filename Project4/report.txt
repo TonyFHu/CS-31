@@ -1,0 +1,49 @@
+There were no notable obstacles since each function was relatively simple.
+
+
+
+Used the given main function to test some cases and played around with values
+
+Tested each function with negative values and zeroes as values
+
+Additional cases:
+	a[6] = {"a","b","c","d","e","f"};
+	b[7] = {"a","a","b","c","c","d","e"};
+	c[9] = {"g","c","e","a","f","b","d","i","h"} 
+	
+	appendToAll
+		appendToAll(a,6,"1");
+		appendToAll(a,4,"1");
+			Check to see if the 1 has been added correctly; e and f should not have a 1 attached in the second case
+	lookup
+		lookup(a,6,"f") == 5	
+		lookup(a,5,"f") == -1		should ignore the last position of the array
+		lookup(a,6,"g") == -1 		is not in the array
+	positionOfMax
+		positionOfMax(a,6) == 5	
+		positionOfMax(a,5) == 4
+		positionOfMax(b,5) == 3		must return the first value that is the greatest
+	rotateLeft
+		rotateLeft(a,6,2)		check if it works
+		rotateLeft(a,5,2)		see if it leaves the last position unchanged
+	countRuns
+		countRuns(a,6)			check if it works
+		countRuns(b,7)
+	flip
+		flip(a,6)			check if it works
+		flip(b,7)		
+		flip(a,3)			see if it only flips the first three
+	differ
+		differ(a,6,b,7)			check if it works
+		differ(a,1,b,7)	== 1
+	subsequence
+		subsequence(b,7,a,6) == -1	should fail
+		subsequence(b,7,a,3) == 1	check if it works
+	lookupAny
+		lookupAny(a,6,b,7)
+	split
+		split(c,9,"f")			check if it works
+		split(c,9,"A")			no element smaller
+		split(c,9,"z") 			no element larger
+		split(c,3,"d")			should be 1
+	

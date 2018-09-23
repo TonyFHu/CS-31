@@ -1,0 +1,32 @@
+The only notable obstacle in this project was making sure letters weren't double counted. Solved it by using arrays to store already used positions.
+
+main
+	get words and if no words are loaded, print out error and terminate
+	take in number of rounds from user
+	loop that number of times
+		get random word (index)
+		print intial game info
+		runOneRound(...)
+		keep track of and print average, max, and min and print
+
+
+runOneRound
+	loop until correct	
+		take probe word input and check validity
+			between 4-6 lowercase letters and is in the wordList
+			if not valid, print message and take new probe
+		if the word matches, return tries
+		otherwise, generate a clue
+		
+		generateClue
+
+
+generateClue
+	use two arrays to keep track of used positions
+	loop through the indices once to check for stars
+		mark used positions
+	loop again to check for planets
+		another loop to check each letter against all the letters of the other word
+			increment planets if any letter matches AND the letter is not already used
+				mark used positions
+

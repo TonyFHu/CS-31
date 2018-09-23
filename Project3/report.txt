@@ -1,0 +1,70 @@
+There weren't any notable obstacles in terms of creating my solution, only minor tweaks here and there to make sure everything works correctly. The biggest obstacle was probably coming to terms with the WAY I created my solution. I deleted my functions and altered blocks of code repeatedly because I felt there was a more elegant way of solving the problem. After a couple hours, I gave up and settled with what I had, but I'm pretty sure there's still a better way.
+
+My code is divided into 6 functions other than main(): encodeNote, encodeSong, hasCorrectSyntax, isPlayable, divideIntoBeats, divideIntoNotes.
+encodeSong is called first, which then calls hasCorrectSyntax to check the song string.
+	check to see if the last character is a slash
+	go through every character
+		if slash
+			move on and start the check over
+		if note letter
+			move on and check for subsequent accidental
+			check for octave number
+		
+If it's incorrect, it returns 1, but if it's correct, divideIntoBeats is called, which returns a vector with each beat as an entry. Each beat is sequentially checked for playability with isPlayable in order to find the 'bad beat' if there is one. If the beats are all playable, then the notes are encoded using the provided encodeNote.
+
+Playability is checked using a method similar to encodeNote, where every increment of 1 is a half-step. So B#1 has a score of 24 and C6 has a score of 72. Anything outside that range is not playable.
+	for every note
+		get the letter
+		get the accidental
+		get the octave number
+		calculate the score
+		check to see if score falls within the acceptable range
+
+The string is divided into beats (divideIntoBeats) by finding the index of the next '/' and taking a substring
+	while the index is within the range of the song
+		find the next slash starting from position index and take the difference to find the length of the beat 
+		take the substring starting at index with the length of the beat
+		add to index to move it to the next beat
+
+
+Test cases were harder to confirm since I can't immediately see/calculate the correct output on my own.
+I used the example encodings
+""
+"//"
+"C/C/G/G/A/A/G/"
+"D3/F#3/A3/D4//D3F#3A3D4/"
+"G3B3DD5//G/A/A3B/C5/B3D5//G//G//CE5//C5/D5/E5/F#5/B3G5//G//G/"
+"DADDA/"
+
+then some various strings
+"\nA3B2/" - escape character
+"\u0041/" - escape sequence -utf-8 "A" ************* This one encoded as Q; UTF encodings result in unintended results
+"/////BbBBbBbBbBBB/" - ?
+"A3B2" - no slash ending
+"Abb3/" - double flat
+"C3B2//D3D1/" - out of playable range
+"C#4Bb2/A#B#C#D#E#F#G#/" - lots of accidentals
+"ajsldviaes" - random letters
+"aviesae/" - random letters with a slash
+"A/B/C/D/E/F/G/" - normal stuff
+"B#1/C2/C6/" - just inside playable range
+"B#1/C2/C#6/" - just outside playable range
+"B1/" - just outside playable range
+""
+
+
+I transcribed a few songs(excerpts) to confirm that the songs are correctly encoded and because I felt like it
+
+
+Unjust Life
+"F5D3//A4A3//F4D4//A4//E5C3//A4A3//F4C4//A4//D5B2//A4F3//D4Bb3//A4//C5A2//G4G3//C4//G3A2//D5G2//F4F3//D4B3//F4//E5A2//G4G3//E4C4//C5//D5Bb2//D4F3//A4A3//D4F3//E5C3//G3//C4E4////F5D3//A4A3//F4D4//F5//E5C3//A4A3//E4C4//A4A3//D5Bb2//A4F3//D4A3//D5//C5A2//C4G3//G4E3//A2//D5G2//F3//Bb3D4//F4//G4A2//G3//C4E4//E4//D4D3//A3//D4//G4//F#4D4////////F4D4D3//G4A3//A4D4//A3//C3//F5A3//E5C4//A4//G4D4Bb2//A4A3//F3//F4D3//G4C4A2//A4F3//A3//D4/E4/F4Bb3G2//F3//E4Bb3//F4F3//G4C4A2//G3//C4//F4G3//G4D4B2//G3//D4//A4G3//A4E4C#3//A3//E4C#4////F4D4D3//G4E4A3//A4F4D4//A3//C3//F5//E5C4//A4A3//G4D4Bb2//A4F3//D4//F4F3//G4C4A2//A4G3//C4//D4/E4/F4Bb3D3//F3//E4Bb3//F4F3//G4C4A2//E3//C4//E4//D4A3D2//A2//G3D3//A3//F#3//D3//D2//D3/"
+
+Cygnus Garden
+"Eb3Eb2//D4Bb3G3//D4Bb3G3//D4Bb3G3////D3D2//C4A3F3//C4A3F3//C4A3F3////G3G2//C4A3//Bb3G3//G3G2//A3F3//Bb3G3//A4A3F3//Bb4Bb3G3G2//C5C4A3//D5D4Bb3G3G2//Eb5C5Eb4F3F2//F5F4D4Bb3//G5G4Eb3Eb2//D4Bb3G3//D4Bb3G3//D5D4Bb3G3////G5//C6D3D2//F4C4A3F3//F4C4A3F3//F4C4A3F3//A5//F5//G5G2//D4Bb3/Eb4C4/D4Bb3//G3G2//C4A3/D4Bb3/C4A3//Bb3G3G2//C4A3//D4Bb3//G4Bb3G3G2//////G4Eb3Eb2//D4Bb3G3//D4Bb3G3//G4Eb3Eb2/D5/C5D4Bb3G3/Bb4/A4/G4/A4F3F2//C4A3F3//C4A3F3//F4F3F2//C4A3F3//Bb4//G4G3G2//D4Bb3G3//D4Bb3G3/C4/D4G3G2//C4A3F3//F4C4A3F3//D4G3G2//D4Bb3G3//D4Bb3G3//Bb3F3F2//C4A3//D4Bb3//G4Eb3Eb2//D4Bb3G3//D4Bb3G3//G4Eb3Eb2/D5/C5D4Bb3G3/Bb4/A4/G4/A4F3F2//C4A3F3//C4A3F3//F4F3F2/G4/A4C4A3F3/Bb4/A4//G4G3G2//D4Bb3G3D3//Bb3G3D3/C4/D4G3G2//C4A3F3//F4C3A3F3//D4G3G2//Bb3G3D3//G3D3//Bb3Bb2//C4C3/D4/G4D4D3/D5/G5Eb3Eb2//G4Eb4Bb3//G4Eb4Bb3//C5Eb3Eb2//Eb4Bb3G3//Eb4Bb3G3/Bb4/C5F3F2//F4C4A3//F4C4A3//F5F3F2//F4C4A3//Eb5F4C4A3//D5Bb3Bb2//D5F4D4Bb3/Eb5/D5D4Bb3//A3A2//C5F4D4Bb3/D5/C5F4D4Bb3//Bb4G3G2//A4D4Bb3G3//C5Eb4Bb3G3//Bb4F3F2//F4Bb3G3//A4F4Bb3G3//G4C3C2//Eb4C4G3//Eb4C4G3//Eb4C3C2//Eb4C4G3/F4/G4Eb4C4G3/C5/A4D3D2//C4A3F3//C4A3F3//F4D3D2//C4A3F3//D4C4A3F3//G4G3G2//Bb3G3/C4A3/D4Bb3//"
+
+Summer
+"B2//F#3//B3//F#3//G2//D3//G3//D3//A2//E3//A3//E3//D3//A3//D4//A3//B2//F#3//B3//F#3//G2//D3//G3//D3//A2//E3//A3//E3//D3//A3//D4A4/D5/A3E5/F#5/E5B2//D5F#3/D5/B3//F#3//G2//D3//A4G3/D5/E5D3/F#5/E5A2//D5E3/E5/A3/F#5/E3/F#5/D3//A3//A4D4/D5/E5A3/F#5/E5B2//D5F#3/D5/B3//F#3//G2//D3//A4G3/D5/E5D3/F#5/E5A2//D5E3/E5/A3/A5/E3/F#5/D3//A3//F#5F#4D4//G5G4A3//A5C#5A4A2//A5C#5A4E3/A5C#5A4/A3//A5C#5A4E3//A5B4G2//F#5B4D3/D5B4/G3//F#5D3/G5/A5C#5A4F#2//A5C#5A4C#3/A5C#5A4/F#3//A5C#5A4C#3//A5D5B4B2//F#5B3F#3/D5B4/B3//D5F#3/E5/F#5B4G#4E2//F#5B4G#4B2/F#5B4G#4/E3//F#5B4G#4B2//F#5B4G4G2//B5D3//B5G3/E5/D5D3//E5A2//E3//E5B4G4A3//E5B4G4E3/E5B4G4/E5B4G4A2//C#5E3//A4A3/D5/E5E3/F#5/E5B2//D5F#3/D5/B3//F#3//G2//D3//A4G3/D5/E5D3/F#5/E5A2//D5E3/E5/A3/F#5/E3/F#5/D3//A3//A4D4/D5/E5A3/F#5/E5B2//D5F#3/D5/B3//F#3//G2//D3//A4G3/D5/E5D3/F#5/E5A2//D5E3/E5/A3/A5/E3/F#5/D3//A3//F#5F#4D4//G5G4A3//A5C#5A4A2//A5C#5A4E3/A5C#5A4/A3//A5C#5A4E3//A5B4G2//F#5B4D3/D5B4/G3//F#5D3/G5/A5C#5A4F#2//A5C#5A4C#3/A5C#5A4/F#3//A5C#5A4C#3//A5D5B4B2//F#5B3F#3/D5B4/B3//D5F#3/E5/F#5D5G#4E2//F#5D5G#4B2/F#5D5G#4/E3//F#5D5G#4B2//F#5C#5G4A3A2//B5E5/F#5/E5/D5/B4/D5D3//A3//D4//A3//B2//F#3//B3//F#3/"
+
+Howl's Moving Castle Theme
+"D4D2//G4D4Bb3G3//Bb4D4Bb3G3//D5C3C2//G4Eb4C4G3//D5G4Eb4C4G3//C5D3D2//Bb4Gb4Eb4C4A3//A4Gb4Eb4C4A3//Bb4G3G2//F4Bb3A3//F4Bb3A3//G4G3G2//Bb4F4D4Bb3//D5F4D4Bb3//G5C3C2//G4D4Bb3//G5G4D4Bb3//G5F3F2//F5F4Eb4A3//Eb5F4Eb4A3//F5Bb2//F4D4A3//F4D4A3//A4F3F2//D5F4D4A3//F5F4D4A3//A5E3E2//A4D4Bb3//G5G4D4Bb3//F5A3A2//E5C#4A3G3//F5C#4A3G3//G5D3D2//G4D4A3//F5F4D4A3//E5C3C2//E4A3F3//D5D4A3F3//C5Bb2//Bb4D4A3F3//C5D4A3F3//D5A2//C5E4D4A3//G4E4D4A3//A4D3D2//G4D4A3//G4D4A3//D4D3D2//G4D4Bb3G3//Bb4F#4D4Bb3G3//D5Eb4G4C3C2//G4Eb4C4G3//D5G4Eb4C4G3//C5A4F#4D3D2//Bb4Gb4Eb4C4A3//A4Gb4Eb4C4A3//Bb4F4D4Bb3G3G2//F4Bb3A3//F4Bb3A3//G4Bb3Eb4Ab3F3//Bb4/D4Ab3F3/D5//G5Bb4Eb3Eb2//G4D4Bb3//G5G4D4Bb3//G5Bb4Eb3Eb2//A5F4Eb4A3//F5F4Eb4A3/Eb5/F5A4D3D2//F4D4A3//F4D4A3//A4G3G2//D5F4D4A3//F5F4D4A3//A5E3E2//A4D4Bb3//G5G4D4Bb3//A2//F5C#4A3G3/E5/D#5C#4A3G3/E5/G5D3D2//A4D4A3//F5F4D4A3//C3C2//E5E4A3F3/D5/C#5D4A3F3/D5/D5Bb2//C5D4A3F3/D5/C5D4A3F3/Bb4/A4A2//C#4A3G3/B4/C#5C#4A3G3//D5D3D2//"
+
